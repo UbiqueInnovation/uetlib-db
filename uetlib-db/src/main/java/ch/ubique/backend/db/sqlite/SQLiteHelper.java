@@ -42,12 +42,13 @@ public class SQLiteHelper {
 
     private SQLiteHelper() {}
 
-    public static DataSource createSQLiteDbInTempDir(String dbName, String pathToSchema)
+    public static DataSource createSQLiteDbInTempDir(
+            final String dbName, final String pathToSchema, final int schemaVersion)
             throws IOException, SQLException, ClassNotFoundException {
         final var dbPath =
                 Path.of(tempFileManager.createTempDir().toAbsolutePath().toString(), dbName)
                         .toString();
-        return createSQLiteDb(dbPath, pathToSchema);
+        return createSQLiteDb(dbPath, pathToSchema, schemaVersion);
     }
 
     /**
@@ -57,15 +58,19 @@ public class SQLiteHelper {
      * committed anymore. Therefore, we also wrap the returned Connections, so that we can commit
      * the connection first, before we close it.
      *
+     * @param schemaVersion is written in to the defined 23-bit integer at offset 60 of the SQLite
+     *     DB
      * @return a DataSource object for this SQLite DB
      * @throws SQLException, ClassNotFoundException, IOException
      */
-    public static DataSource createSQLiteDb(String dbPath, String pathToSchema)
+    public static DataSource createSQLiteDb(
+            final String dbPath, final String pathToSchema, final int schemaVersion)
             throws SQLException, ClassNotFoundException, IOException {
         logger.info("Init SQLite DB: {}", dbPath);
         Files.deleteIfExists(Paths.get(dbPath));
         Class.forName("org.sqlite.JDBC");
         SQLiteDataSource datasource = new SQLiteDataSource();
+        datasource.setUserVersion(schemaVersion);
         datasource.setUrl("jdbc:sqlite:" + dbPath);
         final var conn = datasource.getConnection();
         final var res = new ClassPathResource(pathToSchema);
