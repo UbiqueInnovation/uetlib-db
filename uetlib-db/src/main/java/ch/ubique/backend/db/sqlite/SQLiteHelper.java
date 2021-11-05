@@ -42,6 +42,26 @@ public class SQLiteHelper {
 
     private SQLiteHelper() {}
 
+    /**
+     * A SQLite datasource created in memory with location string ":memory:" instead of a file name
+     * is written to a temp file with the given name
+     *
+     * @throws SQLException
+     * @throws IOException
+     */
+    public static void writeSQLiteMemoryDBToTempFile(
+            final DataSource sqliteDataSource, final String dbName)
+            throws SQLException, IOException {
+        final var conn = sqliteDataSource.getConnection();
+        try (Statement stmt = conn.createStatement()) {
+            final var dbPath =
+                    Path.of(tempFileManager.createTempDir().toAbsolutePath().toString(), dbName)
+                            .toString();
+            logger.info("SQLiteDB written to {}", dbPath);
+            stmt.executeUpdate("backup to " + dbPath);
+        }
+    }
+
     public static DataSource createSQLiteDbInTempDir(
             final String dbName, final String pathToSchema, final int schemaVersion)
             throws IOException, SQLException, ClassNotFoundException {
