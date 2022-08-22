@@ -149,18 +149,16 @@ public class SQLiteHelper {
 
         @Override
         public Connection getConnection() throws SQLException {
-            try (final var con = ds.getConnection()) {
-                con.setAutoCommit(false);
-                return new CommitOnCloseConnection(con);
-            }
+            final var con = ds.getConnection();
+            con.setAutoCommit(false);
+            return new CommitOnCloseConnection(con);
         }
 
         @Override
         public Connection getConnection(String username, String password) throws SQLException {
-            try (final var con = ds.getConnection(username, password)) {
-                con.setAutoCommit(false);
-                return new CommitOnCloseConnection(con);
-            }
+            final var con = ds.getConnection(username, password);
+            con.setAutoCommit(false);
+            return new CommitOnCloseConnection(con);
         }
     }
 
