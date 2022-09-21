@@ -1,6 +1,14 @@
 package ch.ubique.backend.db.sqlite;
 
 import ch.ubique.backend.core.file.temp.TempFileManager;
+
+import org.apache.commons.io.IOUtils;
+import org.flywaydb.core.internal.jdbc.JdbcTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
+import org.sqlite.SQLiteDataSource;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
@@ -26,13 +34,8 @@ import java.sql.Struct;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
+
 import javax.sql.DataSource;
-import org.apache.commons.io.IOUtils;
-import org.flywaydb.core.internal.jdbc.JdbcTemplate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
-import org.sqlite.SQLiteDataSource;
 
 public class SQLiteHelper {
 
