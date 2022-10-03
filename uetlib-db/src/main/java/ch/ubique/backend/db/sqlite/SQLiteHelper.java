@@ -151,6 +151,7 @@ public class SQLiteHelper {
         }
 
         @Override
+        @SuppressWarnings("java:S2095")
         public Connection getConnection() throws SQLException {
             final var con = ds.getConnection();
             con.setAutoCommit(false);
@@ -158,6 +159,7 @@ public class SQLiteHelper {
         }
 
         @Override
+        @SuppressWarnings("java:S2095")
         public Connection getConnection(String username, String password) throws SQLException {
             final var con = ds.getConnection(username, password);
             con.setAutoCommit(false);
@@ -165,6 +167,7 @@ public class SQLiteHelper {
         }
     }
 
+    @SuppressWarnings("ClassCanBeRecord")
     private static class CommitOnCloseConnection implements Connection {
 
         private final Connection c;
