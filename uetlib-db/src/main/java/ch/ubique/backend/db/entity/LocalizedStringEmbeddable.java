@@ -1,10 +1,12 @@
 package ch.ubique.backend.db.entity;
 
+import ch.ubique.backend.core.localized.LocalizedValue;
+import ch.ubique.backend.core.localized.NoValidValuesException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
-public class LocalizedStringEmbeddable implements LocalizedStringInterface {
+public class LocalizedStringEmbeddable {
 
     @Column(name = "de")
     private String de;
@@ -32,7 +34,6 @@ public class LocalizedStringEmbeddable implements LocalizedStringInterface {
         return new LocalizedStringEmbeddable(s, s, s, s);
     }
 
-    @Override
     public String getDe() {
         return de;
     }
@@ -41,7 +42,6 @@ public class LocalizedStringEmbeddable implements LocalizedStringInterface {
         this.de = de;
     }
 
-    @Override
     public String getFr() {
         return fr;
     }
@@ -50,7 +50,6 @@ public class LocalizedStringEmbeddable implements LocalizedStringInterface {
         this.fr = fr;
     }
 
-    @Override
     public String getIt() {
         return it;
     }
@@ -59,12 +58,37 @@ public class LocalizedStringEmbeddable implements LocalizedStringInterface {
         this.it = it;
     }
 
-    @Override
     public String getEn() {
         return en;
     }
 
     public void setEn(final String en) {
         this.en = en;
+    }
+
+    /**
+     * @throws NoValidValuesException if all entries are {@code null} or empty. Use {@link
+     *     #toLocalizedValueNullable()} if {@code null} is a valid response.
+     */
+    public LocalizedValue<String> toLocalizedValue() {
+        return LocalizedValue.<String>builder()
+                .de(getDe())
+                .fr(getFr())
+                .it(getIt())
+                .en(getEn())
+                .build();
+    }
+
+    /**
+     * @return {@code null} if all entries are {@code null} or empty. Use {@link
+     *     #toLocalizedValue()} to throw {@link NoValidValuesException} in that case.
+     */
+    public LocalizedValue<String> toLocalizedValueNullable() {
+        return LocalizedValue.<String>builder()
+                .de(getDe())
+                .fr(getFr())
+                .it(getIt())
+                .en(getEn())
+                .buildNullable();
     }
 }
