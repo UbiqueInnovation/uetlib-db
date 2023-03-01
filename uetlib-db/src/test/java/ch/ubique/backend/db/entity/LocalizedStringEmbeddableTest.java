@@ -2,6 +2,7 @@ package ch.ubique.backend.db.entity;
 
 import ch.ubique.backend.core.localized.LocalizedValue;
 import ch.ubique.backend.core.localized.NoValidValuesException;
+import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -40,5 +41,23 @@ class LocalizedStringEmbeddableTest {
         Assertions.assertEquals(
                 LocalizedValue.stringBuilder().de("DEUTSCH").it("ITALIAN").build().values(),
                 localizedStringEmbeddable.toLocalizedValueNullable().values());
+    }
+
+    @Test
+    void toLocalizedValueOptional() {
+        final var localizedStringEmbeddable = new LocalizedStringEmbeddable();
+        Assertions.assertEquals(
+                Optional.empty(), localizedStringEmbeddable.toLocalizedValueOptional());
+        localizedStringEmbeddable.setDe(" ");
+        Assertions.assertEquals(
+                Optional.empty(), localizedStringEmbeddable.toLocalizedValueOptional());
+        localizedStringEmbeddable.setDe("DEUTSCH");
+        Assertions.assertEquals(
+                LocalizedValue.de("DEUTSCH").values(),
+                localizedStringEmbeddable.toLocalizedValueOptional().orElseThrow().values());
+        localizedStringEmbeddable.setIt("ITALIAN");
+        Assertions.assertEquals(
+                LocalizedValue.stringBuilder().de("DEUTSCH").it("ITALIAN").build().values(),
+                localizedStringEmbeddable.toLocalizedValueOptional().orElseThrow().values());
     }
 }

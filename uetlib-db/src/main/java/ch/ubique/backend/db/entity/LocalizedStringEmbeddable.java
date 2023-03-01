@@ -1,9 +1,11 @@
 package ch.ubique.backend.db.entity;
 
 import ch.ubique.backend.core.localized.LocalizedValue;
+import ch.ubique.backend.core.localized.LocalizedValueBuilder;
 import ch.ubique.backend.core.localized.NoValidValuesException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import java.util.Optional;
 
 @Embeddable
 public class LocalizedStringEmbeddable {
@@ -67,28 +69,33 @@ public class LocalizedStringEmbeddable {
     }
 
     /**
-     * @throws NoValidValuesException if all entries are {@code null} or empty. Use {@link
-     *     #toLocalizedValueNullable()} if {@code null} is a valid response.
+     * @throws NoValidValuesException if all entries are {@code null} or empty.
+     *     <p>Use {@link #toLocalizedValueNullable()} or {@link #toLocalizedValueOptional()} if this
+     *     is not desired.
      */
     public LocalizedValue<String> toLocalizedValue() {
-        return LocalizedValue.<String>builder()
-                .de(getDe())
-                .fr(getFr())
-                .it(getIt())
-                .en(getEn())
-                .build();
+        return toLocalizedValueBuilder().build();
     }
 
     /**
-     * @return {@code null} if all entries are {@code null} or empty. Use {@link
-     *     #toLocalizedValue()} to throw {@link NoValidValuesException} in that case.
+     * @return {@code null} if all entries are {@code null} or empty
+     *     <p>Use {@link #toLocalizedValue()} to throw {@link NoValidValuesException} or {@link
+     *     #toLocalizedValueOptional()} to return an {@link Optional}.
      */
     public LocalizedValue<String> toLocalizedValueNullable() {
-        return LocalizedValue.<String>builder()
-                .de(getDe())
-                .fr(getFr())
-                .it(getIt())
-                .en(getEn())
-                .buildNullable();
+        return toLocalizedValueBuilder().buildNullable();
+    }
+
+    /**
+     * @return {@code null} if all entries are {@code null} or empty.
+     *     <p>Use {@link #toLocalizedValue()} to throw {@link NoValidValuesException} or {@link
+     *     #toLocalizedValueNullable()} to return {@code null}.
+     */
+    public Optional<LocalizedValue<String>> toLocalizedValueOptional() {
+        return toLocalizedValueBuilder().buildOptional();
+    }
+
+    private LocalizedValueBuilder<String> toLocalizedValueBuilder() {
+        return LocalizedValue.<String>builder().de(getDe()).fr(getFr()).it(getIt()).en(getEn());
     }
 }
