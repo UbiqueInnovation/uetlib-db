@@ -14,7 +14,10 @@ class LocalizedStringEmbeddableTest {
         final var localizedStringEmbeddable = new LocalizedStringEmbeddable();
         Assertions.assertThrows(
                 NoValidValuesException.class, localizedStringEmbeddable::toLocalizedValue);
-        localizedStringEmbeddable.setDe(" ");
+        localizedStringEmbeddable.setDe("");
+        Assertions.assertThrows(
+                NoValidValuesException.class, localizedStringEmbeddable::toLocalizedValue);
+        localizedStringEmbeddable.setDe("   ");
         Assertions.assertThrows(
                 NoValidValuesException.class, localizedStringEmbeddable::toLocalizedValue);
         localizedStringEmbeddable.setDe("DEUTSCH");
@@ -31,7 +34,11 @@ class LocalizedStringEmbeddableTest {
     void toLocalizedValueNullable() {
         final var localizedStringEmbeddable = new LocalizedStringEmbeddable();
         Assertions.assertNull(localizedStringEmbeddable.toLocalizedValueNullable());
-        localizedStringEmbeddable.setDe(" ");
+        localizedStringEmbeddable.setDe(null);
+        Assertions.assertNull(localizedStringEmbeddable.toLocalizedValueNullable());
+        localizedStringEmbeddable.setDe("");
+        Assertions.assertNull(localizedStringEmbeddable.toLocalizedValueNullable());
+        localizedStringEmbeddable.setDe("   ");
         Assertions.assertNull(localizedStringEmbeddable.toLocalizedValueNullable());
         localizedStringEmbeddable.setDe("DEUTSCH");
         Assertions.assertEquals(
@@ -59,5 +66,27 @@ class LocalizedStringEmbeddableTest {
         Assertions.assertEquals(
                 LocalizedValue.stringBuilder().de("DEUTSCH").it("ITALIAN").build().values(),
                 localizedStringEmbeddable.toLocalizedValueOptional().orElseThrow().values());
+    }
+
+    @Test
+    void from() {
+        Assertions.assertEquals(
+                Optional.empty(), LocalizedStringEmbeddable.from(null).toLocalizedValueOptional());
+        Assertions.assertEquals(
+                Optional.empty(), LocalizedStringEmbeddable.from("").toLocalizedValueOptional());
+        Assertions.assertEquals(
+                Optional.empty(), LocalizedStringEmbeddable.from("  ").toLocalizedValueOptional());
+        Assertions.assertEquals(
+                LocalizedValue.stringBuilder()
+                        .de("TEXT")
+                        .fr("TEXT")
+                        .it("TEXT")
+                        .en("TEXT")
+                        .build()
+                        .values(),
+                LocalizedStringEmbeddable.from("TEXT")
+                        .toLocalizedValueOptional()
+                        .orElseThrow()
+                        .values());
     }
 }
