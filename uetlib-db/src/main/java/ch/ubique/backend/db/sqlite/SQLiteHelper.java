@@ -63,7 +63,7 @@ public class SQLiteHelper {
         }
     }
 
-    public static DataSource createSQLiteDbInTempDir(
+    public static SQLiteDB createSQLiteDbInTempDir(
             final String dbName, final String pathToSchema, final int schemaVersion)
             throws IOException, SQLException, ClassNotFoundException {
         final var dbPath =
@@ -84,7 +84,7 @@ public class SQLiteHelper {
      * @return a DataSource object for this SQLite DB
      * @throws SQLException, ClassNotFoundException, IOException
      */
-    public static DataSource createSQLiteDb(
+    public static SQLiteDB createSQLiteDb(
             final String dbPath, final String pathToSchema, final int schemaVersion)
             throws SQLException, ClassNotFoundException, IOException {
         logger.info("Init SQLite DB: {}", dbPath);
@@ -104,7 +104,7 @@ public class SQLiteHelper {
                 stat.executeUpdate(statement);
             }
         }
-        return new DisabledAutoCommitDataSource(datasource);
+        return new SQLiteDB(new DisabledAutoCommitDataSource(datasource), dbPath);
     }
 
     private static class DisabledAutoCommitDataSource implements DataSource {
