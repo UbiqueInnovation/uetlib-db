@@ -3,6 +3,7 @@ package ch.ubique.backend.db.entity;
 import ch.ubique.backend.core.localized.LocalizedValue;
 import ch.ubique.backend.core.localized.LocalizedValueBuilder;
 import ch.ubique.backend.core.localized.NoValidValuesException;
+
 import java.util.Optional;
 
 public interface LocalizedStringEmbeddableInterface {

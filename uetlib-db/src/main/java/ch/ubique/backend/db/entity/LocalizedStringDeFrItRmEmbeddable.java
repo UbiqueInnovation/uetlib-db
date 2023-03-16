@@ -2,6 +2,7 @@ package ch.ubique.backend.db.entity;
 
 import ch.ubique.backend.core.localized.LocalizedValue;
 import ch.ubique.backend.core.localized.LocalizedValueBuilder;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
