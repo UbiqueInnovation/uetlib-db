@@ -2,9 +2,11 @@ package ch.ubique.backend.db.entity;
 
 import ch.ubique.backend.core.localized.LocalizedValue;
 import ch.ubique.backend.core.localized.NoValidValuesException;
-import java.util.Optional;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.Optional;
 
 class LocalizedStringDeFrItRmEmbeddableTest {
 

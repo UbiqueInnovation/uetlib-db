@@ -1,10 +1,5 @@
 package ch.ubique.backend.db.flyway;
 
-import java.sql.DatabaseMetaData;
-import java.time.Duration;
-import java.util.Collection;
-import java.util.List;
-import javax.sql.DataSource;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.configuration.FluentConfiguration;
 import org.springframework.boot.autoconfigure.flyway.FlywayProperties;
@@ -14,6 +9,13 @@ import org.springframework.jdbc.support.JdbcUtils;
 import org.springframework.jdbc.support.MetaDataAccessException;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+
+import java.sql.DatabaseMetaData;
+import java.time.Duration;
+import java.util.Collection;
+import java.util.List;
+
+import javax.sql.DataSource;
 
 /**
  * Spring Boot does not some provide a mechanism to create a {@link Flyway} given {@link
