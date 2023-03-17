@@ -54,7 +54,7 @@ public class SQLiteHelper {
             final DataSource sqliteDataSource, final String dbName)
             throws SQLException, IOException {
         final var conn = sqliteDataSource.getConnection();
-        try (Statement stmt = conn.createStatement()) {
+        try (final Statement stmt = conn.createStatement()) {
             final var dbPath =
                     Path.of(TempFileManager.createTempDir().toAbsolutePath().toString(), dbName)
                             .toString();
@@ -90,7 +90,7 @@ public class SQLiteHelper {
         logger.info("Init SQLite DB: {}", dbPath);
         Files.deleteIfExists(Paths.get(dbPath));
         Class.forName("org.sqlite.JDBC");
-        SQLiteDataSource datasource = new SQLiteDataSource();
+        final SQLiteDataSource datasource = new SQLiteDataSource();
         datasource.setUserVersion(schemaVersion);
         datasource.setUrl("jdbc:sqlite:" + dbPath);
         final var conn = datasource.getConnection();
@@ -99,7 +99,7 @@ public class SQLiteHelper {
         // This allows us to read the file as a whole. Split and execute single statements.
         final var statements = sqlInit.split(";");
         try (final var stat = conn.createStatement()) {
-            for (String statement : statements) {
+            for (final String statement : statements) {
                 logger.trace("Exec sql statement: {}", statement);
                 stat.executeUpdate(statement);
             }
@@ -111,7 +111,7 @@ public class SQLiteHelper {
 
         private final DataSource ds;
 
-        public DisabledAutoCommitDataSource(DataSource datasource) {
+        public DisabledAutoCommitDataSource(final DataSource datasource) {
             this.ds = datasource;
         }
 
@@ -121,7 +121,7 @@ public class SQLiteHelper {
         }
 
         @Override
-        public void setLogWriter(PrintWriter out) throws SQLException {
+        public void setLogWriter(final PrintWriter out) throws SQLException {
             ds.setLogWriter(out);
         }
 
@@ -131,7 +131,7 @@ public class SQLiteHelper {
         }
 
         @Override
-        public void setLoginTimeout(int seconds) throws SQLException {
+        public void setLoginTimeout(final int seconds) throws SQLException {
             ds.setLoginTimeout(seconds);
         }
 
@@ -141,12 +141,12 @@ public class SQLiteHelper {
         }
 
         @Override
-        public <T> T unwrap(Class<T> iface) throws SQLException {
+        public <T> T unwrap(final Class<T> iface) throws SQLException {
             return ds.unwrap(iface);
         }
 
         @Override
-        public boolean isWrapperFor(Class<?> iface) throws SQLException {
+        public boolean isWrapperFor(final Class<?> iface) throws SQLException {
             return ds.isWrapperFor(iface);
         }
 
@@ -160,7 +160,7 @@ public class SQLiteHelper {
 
         @Override
         @SuppressWarnings("java:S2095")
-        public Connection getConnection(String username, String password) throws SQLException {
+        public Connection getConnection(final String username, final String password) throws SQLException {
             final var con = ds.getConnection(username, password);
             con.setAutoCommit(false);
             return new CommitOnCloseConnection(con);
@@ -172,15 +172,15 @@ public class SQLiteHelper {
 
         private final Connection c;
 
-        public CommitOnCloseConnection(Connection c) {
+        public CommitOnCloseConnection(final Connection c) {
             this.c = c;
         }
 
-        public <T> T unwrap(Class<T> iface) throws SQLException {
+        public <T> T unwrap(final Class<T> iface) throws SQLException {
             return c.unwrap(iface);
         }
 
-        public boolean isWrapperFor(Class<?> iface) throws SQLException {
+        public boolean isWrapperFor(final Class<?> iface) throws SQLException {
             return c.isWrapperFor(iface);
         }
 
@@ -188,15 +188,15 @@ public class SQLiteHelper {
             return c.createStatement();
         }
 
-        public PreparedStatement prepareStatement(String sql) throws SQLException {
+        public PreparedStatement prepareStatement(final String sql) throws SQLException {
             return c.prepareStatement(sql);
         }
 
-        public CallableStatement prepareCall(String sql) throws SQLException {
+        public CallableStatement prepareCall(final String sql) throws SQLException {
             return c.prepareCall(sql);
         }
 
-        public String nativeSQL(String sql) throws SQLException {
+        public String nativeSQL(final String sql) throws SQLException {
             return c.nativeSQL(sql);
         }
 
@@ -204,7 +204,7 @@ public class SQLiteHelper {
             return c.getAutoCommit();
         }
 
-        public void setAutoCommit(boolean autoCommit) throws SQLException {
+        public void setAutoCommit(final boolean autoCommit) throws SQLException {
             c.setAutoCommit(autoCommit);
         }
 
@@ -233,7 +233,7 @@ public class SQLiteHelper {
             return c.isReadOnly();
         }
 
-        public void setReadOnly(boolean readOnly) throws SQLException {
+        public void setReadOnly(final boolean readOnly) throws SQLException {
             c.setReadOnly(readOnly);
         }
 
@@ -241,7 +241,7 @@ public class SQLiteHelper {
             return c.getCatalog();
         }
 
-        public void setCatalog(String catalog) throws SQLException {
+        public void setCatalog(final String catalog) throws SQLException {
             c.setCatalog(catalog);
         }
 
@@ -249,7 +249,7 @@ public class SQLiteHelper {
             return c.getTransactionIsolation();
         }
 
-        public void setTransactionIsolation(int level) throws SQLException {
+        public void setTransactionIsolation(final int level) throws SQLException {
             c.setTransactionIsolation(level);
         }
 
@@ -261,18 +261,18 @@ public class SQLiteHelper {
             c.clearWarnings();
         }
 
-        public Statement createStatement(int resultSetType, int resultSetConcurrency)
+        public Statement createStatement(final int resultSetType, final int resultSetConcurrency)
                 throws SQLException {
             return c.createStatement(resultSetType, resultSetConcurrency);
         }
 
         public PreparedStatement prepareStatement(
-                String sql, int resultSetType, int resultSetConcurrency) throws SQLException {
+                final String sql, final int resultSetType, final int resultSetConcurrency) throws SQLException {
             return c.prepareStatement(sql, resultSetType, resultSetConcurrency);
         }
 
         public CallableStatement prepareCall(
-                String sql, int resultSetType, int resultSetConcurrency) throws SQLException {
+                final String sql, final int resultSetType, final int resultSetConcurrency) throws SQLException {
             return c.prepareCall(sql, resultSetType, resultSetConcurrency);
         }
 
@@ -280,7 +280,7 @@ public class SQLiteHelper {
             return c.getTypeMap();
         }
 
-        public void setTypeMap(Map<String, Class<?>> map) throws SQLException {
+        public void setTypeMap(final Map<String, Class<?>> map) throws SQLException {
             c.setTypeMap(map);
         }
 
@@ -288,7 +288,7 @@ public class SQLiteHelper {
             return c.getHoldability();
         }
 
-        public void setHoldability(int holdability) throws SQLException {
+        public void setHoldability(final int holdability) throws SQLException {
             c.setHoldability(holdability);
         }
 
@@ -296,48 +296,48 @@ public class SQLiteHelper {
             return c.setSavepoint();
         }
 
-        public Savepoint setSavepoint(String name) throws SQLException {
+        public Savepoint setSavepoint(final String name) throws SQLException {
             return c.setSavepoint(name);
         }
 
-        public void rollback(Savepoint savepoint) throws SQLException {
+        public void rollback(final Savepoint savepoint) throws SQLException {
             c.rollback(savepoint);
         }
 
-        public void releaseSavepoint(Savepoint savepoint) throws SQLException {
+        public void releaseSavepoint(final Savepoint savepoint) throws SQLException {
             c.releaseSavepoint(savepoint);
         }
 
         public Statement createStatement(
-                int resultSetType, int resultSetConcurrency, int resultSetHoldability)
+                final int resultSetType, final int resultSetConcurrency, final int resultSetHoldability)
                 throws SQLException {
             return c.createStatement(resultSetType, resultSetConcurrency, resultSetHoldability);
         }
 
         public PreparedStatement prepareStatement(
-                String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability)
+                final String sql, final int resultSetType, final int resultSetConcurrency, final int resultSetHoldability)
                 throws SQLException {
             return c.prepareStatement(
                     sql, resultSetType, resultSetConcurrency, resultSetHoldability);
         }
 
         public CallableStatement prepareCall(
-                String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability)
+                final String sql, final int resultSetType, final int resultSetConcurrency, final int resultSetHoldability)
                 throws SQLException {
             return c.prepareCall(sql, resultSetType, resultSetConcurrency, resultSetHoldability);
         }
 
-        public PreparedStatement prepareStatement(String sql, int autoGeneratedKeys)
+        public PreparedStatement prepareStatement(final String sql, final int autoGeneratedKeys)
                 throws SQLException {
             return c.prepareStatement(sql, autoGeneratedKeys);
         }
 
-        public PreparedStatement prepareStatement(String sql, int[] columnIndexes)
+        public PreparedStatement prepareStatement(final String sql, final int[] columnIndexes)
                 throws SQLException {
             return c.prepareStatement(sql, columnIndexes);
         }
 
-        public PreparedStatement prepareStatement(String sql, String[] columnNames)
+        public PreparedStatement prepareStatement(final String sql, final String[] columnNames)
                 throws SQLException {
             return c.prepareStatement(sql, columnNames);
         }
@@ -358,15 +358,15 @@ public class SQLiteHelper {
             return c.createSQLXML();
         }
 
-        public boolean isValid(int timeout) throws SQLException {
+        public boolean isValid(final int timeout) throws SQLException {
             return c.isValid(timeout);
         }
 
-        public void setClientInfo(String name, String value) throws SQLClientInfoException {
+        public void setClientInfo(final String name, final String value) throws SQLClientInfoException {
             c.setClientInfo(name, value);
         }
 
-        public String getClientInfo(String name) throws SQLException {
+        public String getClientInfo(final String name) throws SQLException {
             return c.getClientInfo(name);
         }
 
@@ -374,15 +374,15 @@ public class SQLiteHelper {
             return c.getClientInfo();
         }
 
-        public void setClientInfo(Properties properties) throws SQLClientInfoException {
+        public void setClientInfo(final Properties properties) throws SQLClientInfoException {
             c.setClientInfo(properties);
         }
 
-        public Array createArrayOf(String typeName, Object[] elements) throws SQLException {
+        public Array createArrayOf(final String typeName, final Object[] elements) throws SQLException {
             return c.createArrayOf(typeName, elements);
         }
 
-        public Struct createStruct(String typeName, Object[] attributes) throws SQLException {
+        public Struct createStruct(final String typeName, final Object[] attributes) throws SQLException {
             return c.createStruct(typeName, attributes);
         }
 
@@ -390,15 +390,15 @@ public class SQLiteHelper {
             return c.getSchema();
         }
 
-        public void setSchema(String schema) throws SQLException {
+        public void setSchema(final String schema) throws SQLException {
             c.setSchema(schema);
         }
 
-        public void abort(Executor executor) throws SQLException {
+        public void abort(final Executor executor) throws SQLException {
             c.abort(executor);
         }
 
-        public void setNetworkTimeout(Executor executor, int milliseconds) throws SQLException {
+        public void setNetworkTimeout(final Executor executor, final int milliseconds) throws SQLException {
             c.setNetworkTimeout(executor, milliseconds);
         }
 
