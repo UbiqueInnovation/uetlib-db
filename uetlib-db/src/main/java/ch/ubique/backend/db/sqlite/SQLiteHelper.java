@@ -160,7 +160,8 @@ public class SQLiteHelper {
 
         @Override
         @SuppressWarnings("java:S2095")
-        public Connection getConnection(final String username, final String password) throws SQLException {
+        public Connection getConnection(final String username, final String password)
+                throws SQLException {
             final var con = ds.getConnection(username, password);
             con.setAutoCommit(false);
             return new CommitOnCloseConnection(con);
@@ -267,12 +268,14 @@ public class SQLiteHelper {
         }
 
         public PreparedStatement prepareStatement(
-                final String sql, final int resultSetType, final int resultSetConcurrency) throws SQLException {
+                final String sql, final int resultSetType, final int resultSetConcurrency)
+                throws SQLException {
             return c.prepareStatement(sql, resultSetType, resultSetConcurrency);
         }
 
         public CallableStatement prepareCall(
-                final String sql, final int resultSetType, final int resultSetConcurrency) throws SQLException {
+                final String sql, final int resultSetType, final int resultSetConcurrency)
+                throws SQLException {
             return c.prepareCall(sql, resultSetType, resultSetConcurrency);
         }
 
@@ -309,20 +312,28 @@ public class SQLiteHelper {
         }
 
         public Statement createStatement(
-                final int resultSetType, final int resultSetConcurrency, final int resultSetHoldability)
+                final int resultSetType,
+                final int resultSetConcurrency,
+                final int resultSetHoldability)
                 throws SQLException {
             return c.createStatement(resultSetType, resultSetConcurrency, resultSetHoldability);
         }
 
         public PreparedStatement prepareStatement(
-                final String sql, final int resultSetType, final int resultSetConcurrency, final int resultSetHoldability)
+                final String sql,
+                final int resultSetType,
+                final int resultSetConcurrency,
+                final int resultSetHoldability)
                 throws SQLException {
             return c.prepareStatement(
                     sql, resultSetType, resultSetConcurrency, resultSetHoldability);
         }
 
         public CallableStatement prepareCall(
-                final String sql, final int resultSetType, final int resultSetConcurrency, final int resultSetHoldability)
+                final String sql,
+                final int resultSetType,
+                final int resultSetConcurrency,
+                final int resultSetHoldability)
                 throws SQLException {
             return c.prepareCall(sql, resultSetType, resultSetConcurrency, resultSetHoldability);
         }
@@ -362,7 +373,8 @@ public class SQLiteHelper {
             return c.isValid(timeout);
         }
 
-        public void setClientInfo(final String name, final String value) throws SQLClientInfoException {
+        public void setClientInfo(final String name, final String value)
+                throws SQLClientInfoException {
             c.setClientInfo(name, value);
         }
 
@@ -378,11 +390,13 @@ public class SQLiteHelper {
             c.setClientInfo(properties);
         }
 
-        public Array createArrayOf(final String typeName, final Object[] elements) throws SQLException {
+        public Array createArrayOf(final String typeName, final Object[] elements)
+                throws SQLException {
             return c.createArrayOf(typeName, elements);
         }
 
-        public Struct createStruct(final String typeName, final Object[] attributes) throws SQLException {
+        public Struct createStruct(final String typeName, final Object[] attributes)
+                throws SQLException {
             return c.createStruct(typeName, attributes);
         }
 
@@ -398,7 +412,8 @@ public class SQLiteHelper {
             c.abort(executor);
         }
 
-        public void setNetworkTimeout(final Executor executor, final int milliseconds) throws SQLException {
+        public void setNetworkTimeout(final Executor executor, final int milliseconds)
+                throws SQLException {
             c.setNetworkTimeout(executor, milliseconds);
         }
 
