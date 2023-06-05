@@ -24,12 +24,16 @@ class LocalizedStringDeFrItRmEmbeddableTest {
                 NoValidValuesException.class, localizedStringEmbeddable::toLocalizedValue);
         localizedStringEmbeddable.setDe("DEUTSCH");
         Assertions.assertEquals(
-                LocalizedValue.de("DEUTSCH").values(),
-                localizedStringEmbeddable.toLocalizedValue().values());
+                LocalizedValue.de("DEUTSCH").toMapWithLocaleKeys(),
+                localizedStringEmbeddable.toLocalizedValue().toMapWithLocaleKeys());
         localizedStringEmbeddable.setRm("ROMANSH");
         Assertions.assertEquals(
-                LocalizedValue.stringBuilder().de("DEUTSCH").romansh("ROMANSH").build().values(),
-                localizedStringEmbeddable.toLocalizedValue().values());
+                LocalizedValue.stringBuilder()
+                        .de("DEUTSCH")
+                        .romansh("ROMANSH")
+                        .build()
+                        .toMapWithLocaleKeys(),
+                localizedStringEmbeddable.toLocalizedValue().toMapWithLocaleKeys());
     }
 
     @Test
@@ -44,12 +48,16 @@ class LocalizedStringDeFrItRmEmbeddableTest {
         Assertions.assertNull(localizedStringEmbeddable.toLocalizedValueNullable());
         localizedStringEmbeddable.setDe("DEUTSCH");
         Assertions.assertEquals(
-                LocalizedValue.de("DEUTSCH").values(),
-                localizedStringEmbeddable.toLocalizedValueNullable().values());
+                LocalizedValue.de("DEUTSCH").toMapWithLocaleKeys(),
+                localizedStringEmbeddable.toLocalizedValueNullable().toMapWithLocaleKeys());
         localizedStringEmbeddable.setRm("ROMANSH");
         Assertions.assertEquals(
-                LocalizedValue.stringBuilder().de("DEUTSCH").romansh("ROMANSH").build().values(),
-                localizedStringEmbeddable.toLocalizedValueNullable().values());
+                LocalizedValue.stringBuilder()
+                        .de("DEUTSCH")
+                        .romansh("ROMANSH")
+                        .build()
+                        .toMapWithLocaleKeys(),
+                localizedStringEmbeddable.toLocalizedValueNullable().toMapWithLocaleKeys());
     }
 
     @Test
@@ -62,12 +70,22 @@ class LocalizedStringDeFrItRmEmbeddableTest {
                 Optional.empty(), localizedStringEmbeddable.toLocalizedValueOptional());
         localizedStringEmbeddable.setDe("DEUTSCH");
         Assertions.assertEquals(
-                LocalizedValue.de("DEUTSCH").values(),
-                localizedStringEmbeddable.toLocalizedValueOptional().orElseThrow().values());
+                LocalizedValue.de("DEUTSCH").toMapWithLocaleKeys(),
+                localizedStringEmbeddable
+                        .toLocalizedValueOptional()
+                        .orElseThrow()
+                        .toMapWithLocaleKeys());
         localizedStringEmbeddable.setRm("ROMANSH");
         Assertions.assertEquals(
-                LocalizedValue.stringBuilder().de("DEUTSCH").romansh("ROMANSH").build().values(),
-                localizedStringEmbeddable.toLocalizedValueOptional().orElseThrow().values());
+                LocalizedValue.stringBuilder()
+                        .de("DEUTSCH")
+                        .romansh("ROMANSH")
+                        .build()
+                        .toMapWithLocaleKeys(),
+                localizedStringEmbeddable
+                        .toLocalizedValueOptional()
+                        .orElseThrow()
+                        .toMapWithLocaleKeys());
     }
 
     @Test
@@ -88,10 +106,10 @@ class LocalizedStringDeFrItRmEmbeddableTest {
                         .it("TEXT")
                         .romansh("TEXT")
                         .build()
-                        .values(),
+                        .toMapWithLocaleKeys(),
                 LocalizedStringDeFrItRmEmbeddable.from("TEXT")
                         .toLocalizedValueOptional()
                         .orElseThrow()
-                        .values());
+                        .toMapWithLocaleKeys());
     }
 }

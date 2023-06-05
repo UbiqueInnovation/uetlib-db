@@ -24,12 +24,16 @@ class LocalizedStringDeFrItEnEmbeddableTest {
                 NoValidValuesException.class, localizedStringEmbeddable::toLocalizedValue);
         localizedStringEmbeddable.setDe("DEUTSCH");
         Assertions.assertEquals(
-                LocalizedValue.de("DEUTSCH").values(),
-                localizedStringEmbeddable.toLocalizedValue().values());
+                LocalizedValue.de("DEUTSCH").toMapWithLocaleKeys(),
+                localizedStringEmbeddable.toLocalizedValue().toMapWithLocaleKeys());
         localizedStringEmbeddable.setEn("ENGLISH");
         Assertions.assertEquals(
-                LocalizedValue.stringBuilder().de("DEUTSCH").en("ENGLISH").build().values(),
-                localizedStringEmbeddable.toLocalizedValue().values());
+                LocalizedValue.stringBuilder()
+                        .de("DEUTSCH")
+                        .en("ENGLISH")
+                        .build()
+                        .toMapWithLocaleKeys(),
+                localizedStringEmbeddable.toLocalizedValue().toMapWithLocaleKeys());
     }
 
     @Test
@@ -44,12 +48,16 @@ class LocalizedStringDeFrItEnEmbeddableTest {
         Assertions.assertNull(localizedStringEmbeddable.toLocalizedValueNullable());
         localizedStringEmbeddable.setDe("DEUTSCH");
         Assertions.assertEquals(
-                LocalizedValue.de("DEUTSCH").values(),
-                localizedStringEmbeddable.toLocalizedValueNullable().values());
+                LocalizedValue.de("DEUTSCH").toMapWithLocaleKeys(),
+                localizedStringEmbeddable.toLocalizedValueNullable().toMapWithLocaleKeys());
         localizedStringEmbeddable.setEn("ENGLISH");
         Assertions.assertEquals(
-                LocalizedValue.stringBuilder().de("DEUTSCH").en("ENGLISH").build().values(),
-                localizedStringEmbeddable.toLocalizedValueNullable().values());
+                LocalizedValue.stringBuilder()
+                        .de("DEUTSCH")
+                        .en("ENGLISH")
+                        .build()
+                        .toMapWithLocaleKeys(),
+                localizedStringEmbeddable.toLocalizedValueNullable().toMapWithLocaleKeys());
     }
 
     @Test
@@ -62,12 +70,22 @@ class LocalizedStringDeFrItEnEmbeddableTest {
                 Optional.empty(), localizedStringEmbeddable.toLocalizedValueOptional());
         localizedStringEmbeddable.setDe("DEUTSCH");
         Assertions.assertEquals(
-                LocalizedValue.de("DEUTSCH").values(),
-                localizedStringEmbeddable.toLocalizedValueOptional().orElseThrow().values());
+                LocalizedValue.de("DEUTSCH").toMapWithLocaleKeys(),
+                localizedStringEmbeddable
+                        .toLocalizedValueOptional()
+                        .orElseThrow()
+                        .toMapWithLocaleKeys());
         localizedStringEmbeddable.setEn("ENGLISH");
         Assertions.assertEquals(
-                LocalizedValue.stringBuilder().de("DEUTSCH").en("ENGLISH").build().values(),
-                localizedStringEmbeddable.toLocalizedValueOptional().orElseThrow().values());
+                LocalizedValue.stringBuilder()
+                        .de("DEUTSCH")
+                        .en("ENGLISH")
+                        .build()
+                        .toMapWithLocaleKeys(),
+                localizedStringEmbeddable
+                        .toLocalizedValueOptional()
+                        .orElseThrow()
+                        .toMapWithLocaleKeys());
     }
 
     @Test
@@ -88,10 +106,10 @@ class LocalizedStringDeFrItEnEmbeddableTest {
                         .it("TEXT")
                         .en("TEXT")
                         .build()
-                        .values(),
+                        .toMapWithLocaleKeys(),
                 LocalizedStringDeFrItEnEmbeddable.from("TEXT")
                         .toLocalizedValueOptional()
                         .orElseThrow()
-                        .values());
+                        .toMapWithLocaleKeys());
     }
 }
