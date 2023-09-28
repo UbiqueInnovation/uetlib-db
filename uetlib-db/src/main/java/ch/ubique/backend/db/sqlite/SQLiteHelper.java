@@ -41,6 +41,8 @@ public class SQLiteHelper {
 
     private static final Logger logger = LoggerFactory.getLogger(SQLiteHelper.class);
 
+    private static final TempFileManager TEMP_FILE_MANAGER = new TempFileManager();
+
     private SQLiteHelper() {}
 
     /**
@@ -56,7 +58,7 @@ public class SQLiteHelper {
         final var conn = sqliteDataSource.getConnection();
         try (final Statement stmt = conn.createStatement()) {
             final var dbPath =
-                    Path.of(TempFileManager.createTempDir().toAbsolutePath().toString(), dbName)
+                    Path.of(TEMP_FILE_MANAGER.createTempDir().toAbsolutePath().toString(), dbName)
                             .toString();
             logger.info("SQLiteDB written to {}", dbPath);
             stmt.executeUpdate("backup to " + dbPath);
@@ -67,7 +69,7 @@ public class SQLiteHelper {
             final String dbName, final String pathToSchema, final int schemaVersion)
             throws IOException, SQLException, ClassNotFoundException {
         final var dbPath =
-                Path.of(TempFileManager.createTempDir().toAbsolutePath().toString(), dbName)
+                Path.of(TEMP_FILE_MANAGER.createTempDir().toAbsolutePath().toString(), dbName)
                         .toString();
         return createSQLiteDb(dbPath, pathToSchema, schemaVersion);
     }
