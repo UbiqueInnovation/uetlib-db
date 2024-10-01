@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import java.util.List;
 
 public final class PageableUtil {
+
     private PageableUtil() {}
 
     /**
