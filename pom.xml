@@ -16,6 +16,10 @@
     <properties>
         <!-- Versions -->
         <spring-boot-version>3.3.5</spring-boot-version>
+        <!-- Sonar-->
+        <sonar.projectKey>UbiqueInnovation_uetlib-db</sonar.projectKey>
+        <sonar.organization>ubiqueinnovation</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
 
 
