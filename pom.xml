@@ -6,7 +6,7 @@
     <parent>
         <artifactId>uetlib-bom</artifactId>
         <groupId>ch.ubique</groupId>
-        <version>1.0.0-alpha.14</version>
+        <version>1.0.0-alpha.15</version>
     </parent>
 
     <artifactId>uetlib-db</artifactId>
@@ -28,7 +28,7 @@
         <dependency>
             <groupId>ch.ubique</groupId>
             <artifactId>uetlib-core</artifactId>
-            <version>1.0.0-alpha.11</version>
+            <version>1.0.0-alpha.13</version>
         </dependency>
 
         <dependency>
