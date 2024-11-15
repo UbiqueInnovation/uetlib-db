@@ -6,8 +6,8 @@
 
     <parent>
         <groupId>ch.ubique</groupId>
-        <artifactId>uetlib-bom</artifactId>
-        <version>1.0.0-alpha.15</version>
+        <artifactId>uetlib-parent</artifactId>
+        <version>1.0.0-rc.1</version>
     </parent>
 
     <artifactId>uetlib-db</artifactId>
@@ -30,7 +30,7 @@
         <dependency>
             <groupId>ch.ubique</groupId>
             <artifactId>uetlib-core</artifactId>
-            <version>1.0.0-alpha.13</version>
+            <version>1.0.0-rc.1</version>
         </dependency>
 
         <dependency>
@@ -74,7 +74,7 @@
         <dependency>
             <groupId>ch.ubique</groupId>
             <artifactId>uetlib-test</artifactId>
-            <version>1.0.0-alpha.9</version>
+            <version>1.0.0-rc.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
