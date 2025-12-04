@@ -4,24 +4,27 @@ import ch.ubique.backend.db.jdbc.VendorLocationResolver;
 
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.configuration.FluentConfiguration;
-import org.springframework.boot.autoconfigure.flyway.FlywayProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
+import org.springframework.boot.flyway.autoconfigure.FlywayAutoConfiguration;
+import org.springframework.boot.flyway.autoconfigure.FlywayProperties;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import java.time.Duration;
+import java.util.Map;
+import java.util.Objects;
 
 import javax.sql.DataSource;
 
 /**
  * Spring Boot does not some provide a mechanism to create a {@link Flyway} given {@link
- * FlywayProperties} when not using {@link
- * org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration}. This class executes
- * {@link Flyway#configure()} and applies all the given {@link FlywayProperties} to it, as-well as
+ * FlywayProperties} when not using {@link FlywayAutoConfiguration}. This class executes {@link
+ * Flyway#configure()} and applies all the given {@link FlywayProperties} to it, as-well as
  * optionally executing the migrations.
  */
 @SuppressWarnings("unused")
-public class FlywayConfigurer {
+public final class FlywayConfigurer {
 
     private FlywayConfigurer() {}
 
@@ -41,19 +44,28 @@ public class FlywayConfigurer {
 
     /**
      * Extracted and adapted from {@link
-     * org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration.FlywayConfiguration#configureProperties}
+     * FlywayAutoConfiguration.FlywayConfiguration#configureProperties}
      */
     private static void configureProperties(
             final FluentConfiguration fluentConfiguration,
             final FlywayProperties flywayProperties) {
-        final var map = PropertyMapper.get().alwaysApplyingWhenNonNull();
+        final var map = PropertyMapper.get();
         final var locations =
                 new VendorLocationResolver(fluentConfiguration.getDataSource())
                         .resolveLocations(flywayProperties.getLocations())
-                        .toArray(new String[0]);
+                        .toArray(String[]::new);
+        fluentConfiguration.locations(locations);
+        map.from(flywayProperties.getCallbackLocations())
+                .when(callbackLocations -> !ObjectUtils.isEmpty(callbackLocations))
+                .to(
+                        callbackLocations ->
+                                fluentConfiguration.callbackLocations(
+                                        new VendorLocationResolver(
+                                                        fluentConfiguration.getDataSource())
+                                                .resolveLocations(callbackLocations)
+                                                .toArray(String[]::new)));
         map.from(flywayProperties.isFailOnMissingLocations())
                 .to(fluentConfiguration::failOnMissingLocations);
-        map.from(locations).to(fluentConfiguration::locations);
         map.from(flywayProperties.getEncoding()).to(fluentConfiguration::encoding);
         map.from(flywayProperties.getConnectRetries()).to(fluentConfiguration::connectRetries);
         map.from(flywayProperties.getConnectRetriesInterval())
@@ -93,8 +105,6 @@ public class FlywayConfigurer {
         map.from(flywayProperties.getTarget()).to(fluentConfiguration::target);
         map.from(flywayProperties.isBaselineOnMigrate()).to(fluentConfiguration::baselineOnMigrate);
         map.from(flywayProperties.isCleanDisabled()).to(fluentConfiguration::cleanDisabled);
-        map.from(flywayProperties.isCleanOnValidationError())
-                .to(fluentConfiguration::cleanOnValidationError);
         map.from(flywayProperties.isGroup()).to(fluentConfiguration::group);
         map.from(flywayProperties.isMixed()).to(fluentConfiguration::mixed);
         map.from(flywayProperties.isOutOfOrder()).to(fluentConfiguration::outOfOrder);
@@ -113,5 +123,44 @@ public class FlywayConfigurer {
                 .to(fluentConfiguration::scriptPlaceholderPrefix);
         map.from(flywayProperties.getScriptPlaceholderSuffix())
                 .to(fluentConfiguration::scriptPlaceholderSuffix);
+        map.from(flywayProperties.getPowershellExecutable())
+                .to(fluentConfiguration::powershellExecutable);
+        configureExecuteInTransaction(fluentConfiguration, flywayProperties, map);
+        Objects.requireNonNull(flywayProperties);
+        map.from(flywayProperties::getLoggers).to(fluentConfiguration::loggers);
+        Objects.requireNonNull(flywayProperties);
+        map.from(flywayProperties::getCommunityDbSupportEnabled)
+                .to(fluentConfiguration::communityDBSupportEnabled);
+        map.from(flywayProperties.getBatch()).to(fluentConfiguration::batch);
+        map.from(flywayProperties.getDryRunOutput()).to(fluentConfiguration::dryRunOutput);
+        map.from(flywayProperties.getErrorOverrides()).to(fluentConfiguration::errorOverrides);
+        map.from(flywayProperties.getStream()).to(fluentConfiguration::stream);
+        map.from(flywayProperties.getJdbcProperties())
+                .whenNot(Map::isEmpty)
+                .to(fluentConfiguration::jdbcProperties);
+        map.from(flywayProperties.getKerberosConfigFile())
+                .to(fluentConfiguration::kerberosConfigFile);
+        map.from(flywayProperties.getOutputQueryResults())
+                .to(fluentConfiguration::outputQueryResults);
+        map.from(flywayProperties.getSkipExecutingMigrations())
+                .to(fluentConfiguration::skipExecutingMigrations);
+        map.from(flywayProperties.getIgnoreMigrationPatterns())
+                .to(
+                        ignoreMigrationPatterns ->
+                                fluentConfiguration.ignoreMigrationPatterns(
+                                        ignoreMigrationPatterns.toArray(String[]::new)));
+        map.from(flywayProperties.getDetectEncoding()).to(fluentConfiguration::detectEncoding);
+    }
+
+    private static void configureExecuteInTransaction(
+            final FluentConfiguration fluentConfiguration,
+            final FlywayProperties flywayProperties,
+            final PropertyMapper map) {
+        try {
+            map.from(flywayProperties.isExecuteInTransaction())
+                    .to(fluentConfiguration::executeInTransaction);
+        } catch (final NoSuchMethodError ex) {
+            // Flyway < 9.14
+        }
     }
 }
