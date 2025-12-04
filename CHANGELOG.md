@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 2.0.0
+
+### Improvements
+
+- Support for Spring Boot 4.0
+
 ## 1.1.0
 
 ### Improvements
