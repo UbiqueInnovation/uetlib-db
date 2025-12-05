@@ -73,15 +73,6 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>de.westemeyer</groupId>
-                <artifactId>artifact-version-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-
     <distributionManagement>
         <repository>
             <id>ubique-artifactory</id>
