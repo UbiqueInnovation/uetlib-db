@@ -46,17 +46,14 @@ public class SQLiteHelper {
     private SQLiteHelper() {}
 
     /**
-     * A SQLite datasource created in memory with location string ":memory:" instead of a file name
-     * is written to a temp file with the given name
-     *
-     * @throws SQLException
-     * @throws IOException
+     * An SQLite datasource created in memory with the location string ":memory:" instead of a file
+     * name is written to a temp file with the given name
      */
     public static void writeSQLiteMemoryDBToTempFile(
             final DataSource sqliteDataSource, final String dbName)
             throws SQLException, IOException {
         final var conn = sqliteDataSource.getConnection();
-        try (final Statement stmt = conn.createStatement()) {
+        try (final var stmt = conn.createStatement()) {
             final var dbPath =
                     Path.of(TEMP_FILE_MANAGER.createTempDir().toAbsolutePath().toString(), dbName)
                             .toString();
@@ -92,7 +89,7 @@ public class SQLiteHelper {
         logger.info("Init SQLite DB: {}", dbPath);
         Files.deleteIfExists(Paths.get(dbPath));
         Class.forName("org.sqlite.JDBC");
-        final SQLiteDataSource datasource = new SQLiteDataSource();
+        final var datasource = new SQLiteDataSource();
         datasource.setUserVersion(schemaVersion);
         datasource.setUrl("jdbc:sqlite:" + dbPath);
         final var conn = datasource.getConnection();
@@ -101,7 +98,7 @@ public class SQLiteHelper {
         // This allows us to read the file as a whole. Split and execute single statements.
         final var statements = sqlInit.split(";");
         try (final var stat = conn.createStatement()) {
-            for (final String statement : statements) {
+            for (final var statement : statements) {
                 logger.trace("Exec sql statement: {}", statement);
                 stat.executeUpdate(statement);
             }
@@ -109,13 +106,7 @@ public class SQLiteHelper {
         return new SQLiteDB(new DisabledAutoCommitDataSource(datasource), dbPath);
     }
 
-    private static class DisabledAutoCommitDataSource implements DataSource {
-
-        private final DataSource ds;
-
-        public DisabledAutoCommitDataSource(final DataSource datasource) {
-            this.ds = datasource;
-        }
+    private record DisabledAutoCommitDataSource(DataSource ds) implements DataSource {
 
         @Override
         public PrintWriter getLogWriter() throws SQLException {
