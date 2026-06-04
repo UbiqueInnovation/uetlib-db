@@ -4,6 +4,8 @@ import ch.ubique.backend.core.localized.LocalizedValue;
 import ch.ubique.backend.core.localized.LocalizedValueBuilder;
 import ch.ubique.backend.core.localized.NoValidValuesException;
 
+import org.jspecify.annotations.Nullable;
+
 import java.util.Optional;
 
 public interface LocalizedStringEmbeddableInterface {
@@ -22,7 +24,7 @@ public interface LocalizedStringEmbeddableInterface {
      *     <p>Use {@link #toLocalizedValue()} to throw {@link NoValidValuesException} or {@link
      *     #toLocalizedValueOptional()} to return an {@link Optional}.
      */
-    default LocalizedValue<String> toLocalizedValueNullable() {
+    default @Nullable LocalizedValue<String> toLocalizedValueNullable() {
         return toLocalizedValueBuilder().buildNullable();
     }
 
