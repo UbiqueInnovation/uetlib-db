@@ -7,30 +7,33 @@
     <parent>
         <groupId>ch.ubique</groupId>
         <artifactId>uetlib-parent</artifactId>
-        <version>2026.3.0</version>
+        <version>2026.06.0</version>
     </parent>
 
     <artifactId>uetlib-db</artifactId>
     <version>3.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
+    <properties>
+        <uetlib-core.version>2.3.3</uetlib-core.version>
+        <uetlib-spring-boot.version>2.2.0</uetlib-spring-boot.version>
+        <uetlib-test.version>2.0.1</uetlib-test.version>
+
+        <!-- westemeyer version config -->
+        <westemeyer-version-package-name>ch.ubique.backend.db.version</westemeyer-version-package-name>
+    </properties>
+
     <dependencies>
         <!-- Core -->
         <dependency>
             <groupId>ch.ubique</groupId>
             <artifactId>uetlib-core</artifactId>
-            <version>2.2.2</version>
+            <version>${uetlib-core.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.yaml</groupId>
-                    <artifactId>snakeyaml</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
@@ -68,12 +71,22 @@
         <dependency>
             <groupId>ch.ubique</groupId>
             <artifactId>uetlib-test</artifactId>
-            <version>2.0.1</version>
+            <version>${uetlib-test.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
 
     <repositories>
+        <repository>
+            <id>ubique-artifactory</id>
+            <name>backend</name>
+            <url>https://artifactory.ubique.ch/artifactory/backend</url>
+        </repository>
+        <repository>
+            <id>ubique-artifactory-virtual</id>
+            <name>ubique</name>
+            <url>https://artifactory.ubique.ch/artifactory/ubique</url>
+        </repository>
         <repository>
             <id>osgeo</id>
             <name>Open Source Geospatial Foundation Repository</name>

@@ -6,23 +6,28 @@ import ch.ubique.backend.core.localized.LocalizedValueBuilder;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
+import org.jspecify.annotations.Nullable;
+
 @Embeddable
 public class LocalizedStringDeFrItEnEmbeddable implements LocalizedStringEmbeddableInterface {
 
     @Column(name = "de")
-    private String de;
+    private @Nullable String de;
 
     @Column(name = "fr")
-    private String fr;
+    private @Nullable String fr;
 
     @Column(name = "it")
-    private String it;
+    private @Nullable String it;
 
     @Column(name = "en")
-    private String en;
+    private @Nullable String en;
 
     public LocalizedStringDeFrItEnEmbeddable(
-            final String de, final String fr, final String it, final String en) {
+            final @Nullable String de,
+            final @Nullable String fr,
+            final @Nullable String it,
+            final @Nullable String en) {
         this.de = de;
         this.fr = fr;
         this.it = it;
@@ -31,39 +36,39 @@ public class LocalizedStringDeFrItEnEmbeddable implements LocalizedStringEmbedda
 
     public LocalizedStringDeFrItEnEmbeddable() {}
 
-    public static LocalizedStringDeFrItEnEmbeddable from(final String s) {
+    public static LocalizedStringDeFrItEnEmbeddable from(final @Nullable String s) {
         return new LocalizedStringDeFrItEnEmbeddable(s, s, s, s);
     }
 
-    public String getDe() {
+    public @Nullable String getDe() {
         return de;
     }
 
-    public void setDe(final String de) {
+    public void setDe(final @Nullable String de) {
         this.de = de;
     }
 
-    public String getFr() {
+    public @Nullable String getFr() {
         return fr;
     }
 
-    public void setFr(final String fr) {
+    public void setFr(final @Nullable String fr) {
         this.fr = fr;
     }
 
-    public String getIt() {
+    public @Nullable String getIt() {
         return it;
     }
 
-    public void setIt(final String it) {
+    public void setIt(final @Nullable String it) {
         this.it = it;
     }
 
-    public String getEn() {
+    public @Nullable String getEn() {
         return en;
     }
 
-    public void setEn(final String en) {
+    public void setEn(final @Nullable String en) {
         this.en = en;
     }
 

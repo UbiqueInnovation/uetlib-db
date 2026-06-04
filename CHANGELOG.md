@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 2.1.0
+
+### Improvements
+
+- Null-marked it all
+- Updated `uetlib-core`, `uetlib-spring-boot`, `uetlib-parent` and `uetlib-test` to their latest versions.
+
 ## 2.0.0
 
 ### Improvements
