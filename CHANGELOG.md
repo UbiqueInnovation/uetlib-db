@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 2.2.0
+
+### Improvements
+
+- Add `LocalizedStringDeFrItEnEmbeddable::from(LocalizedValue)` and
+  `LocalizedStringDeFrItRmEmbeddable::from(LocalizedValue)`
+
 ## 2.1.0
 
 ### Improvements
