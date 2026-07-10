@@ -1,5 +1,8 @@
 package ch.ubique.backend.db.entity;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import ch.ubique.backend.core.localized.LocalizedValue;
 import ch.ubique.backend.core.localized.NoValidValuesException;
 
@@ -8,26 +11,24 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
+@SuppressWarnings("DataFlowIssue")
 class LocalizedStringDeFrItRmEmbeddableTest {
 
     @Test
     @SuppressWarnings("java:S5778")
     void toLocalizedValue() {
         final var localizedStringEmbeddable = new LocalizedStringDeFrItRmEmbeddable();
-        Assertions.assertThrows(
-                NoValidValuesException.class, localizedStringEmbeddable::toLocalizedValue);
+        assertThrows(NoValidValuesException.class, localizedStringEmbeddable::toLocalizedValue);
         localizedStringEmbeddable.setDe("");
-        Assertions.assertThrows(
-                NoValidValuesException.class, localizedStringEmbeddable::toLocalizedValue);
+        assertThrows(NoValidValuesException.class, localizedStringEmbeddable::toLocalizedValue);
         localizedStringEmbeddable.setDe("   ");
-        Assertions.assertThrows(
-                NoValidValuesException.class, localizedStringEmbeddable::toLocalizedValue);
+        assertThrows(NoValidValuesException.class, localizedStringEmbeddable::toLocalizedValue);
         localizedStringEmbeddable.setDe("DEUTSCH");
-        Assertions.assertEquals(
+        assertEquals(
                 LocalizedValue.de("DEUTSCH").toMapWithLocaleKeys(),
                 localizedStringEmbeddable.toLocalizedValue().toMapWithLocaleKeys());
         localizedStringEmbeddable.setRm("ROMANSH");
-        Assertions.assertEquals(
+        assertEquals(
                 LocalizedValue.stringBuilder()
                         .de("DEUTSCH")
                         .romansh("ROMANSH")
@@ -47,11 +48,11 @@ class LocalizedStringDeFrItRmEmbeddableTest {
         localizedStringEmbeddable.setDe("   ");
         Assertions.assertNull(localizedStringEmbeddable.toLocalizedValueNullable());
         localizedStringEmbeddable.setDe("DEUTSCH");
-        Assertions.assertEquals(
+        assertEquals(
                 LocalizedValue.de("DEUTSCH").toMapWithLocaleKeys(),
                 localizedStringEmbeddable.toLocalizedValueNullable().toMapWithLocaleKeys());
         localizedStringEmbeddable.setRm("ROMANSH");
-        Assertions.assertEquals(
+        assertEquals(
                 LocalizedValue.stringBuilder()
                         .de("DEUTSCH")
                         .romansh("ROMANSH")
@@ -63,20 +64,18 @@ class LocalizedStringDeFrItRmEmbeddableTest {
     @Test
     void toLocalizedValueOptional() {
         final var localizedStringEmbeddable = new LocalizedStringDeFrItRmEmbeddable();
-        Assertions.assertEquals(
-                Optional.empty(), localizedStringEmbeddable.toLocalizedValueOptional());
+        assertEquals(Optional.empty(), localizedStringEmbeddable.toLocalizedValueOptional());
         localizedStringEmbeddable.setDe(" ");
-        Assertions.assertEquals(
-                Optional.empty(), localizedStringEmbeddable.toLocalizedValueOptional());
+        assertEquals(Optional.empty(), localizedStringEmbeddable.toLocalizedValueOptional());
         localizedStringEmbeddable.setDe("DEUTSCH");
-        Assertions.assertEquals(
+        assertEquals(
                 LocalizedValue.de("DEUTSCH").toMapWithLocaleKeys(),
                 localizedStringEmbeddable
                         .toLocalizedValueOptional()
                         .orElseThrow()
                         .toMapWithLocaleKeys());
         localizedStringEmbeddable.setRm("ROMANSH");
-        Assertions.assertEquals(
+        assertEquals(
                 LocalizedValue.stringBuilder()
                         .de("DEUTSCH")
                         .romansh("ROMANSH")
@@ -89,17 +88,17 @@ class LocalizedStringDeFrItRmEmbeddableTest {
     }
 
     @Test
-    void from() {
-        Assertions.assertEquals(
+    void fromString() {
+        assertEquals(
                 Optional.empty(),
-                LocalizedStringDeFrItRmEmbeddable.from(null).toLocalizedValueOptional());
-        Assertions.assertEquals(
+                LocalizedStringDeFrItRmEmbeddable.from((String) null).toLocalizedValueOptional());
+        assertEquals(
                 Optional.empty(),
                 LocalizedStringDeFrItRmEmbeddable.from("").toLocalizedValueOptional());
-        Assertions.assertEquals(
+        assertEquals(
                 Optional.empty(),
                 LocalizedStringDeFrItRmEmbeddable.from("  ").toLocalizedValueOptional());
-        Assertions.assertEquals(
+        assertEquals(
                 LocalizedValue.stringBuilder()
                         .de("TEXT")
                         .fr("TEXT")
@@ -111,5 +110,39 @@ class LocalizedStringDeFrItRmEmbeddableTest {
                         .toLocalizedValueOptional()
                         .orElseThrow()
                         .toMapWithLocaleKeys());
+    }
+
+    @Test
+    void fromLocalizedValue() {
+        assertThrows(
+                NullPointerException.class,
+                () -> LocalizedStringDeFrItRmEmbeddable.from((LocalizedValue<String>) null));
+        assertThrows(
+                NoValidValuesException.class,
+                () -> LocalizedValue.stringBuilder().de("").build());
+        assertThrows(
+                NoValidValuesException.class,
+                () -> LocalizedValue.stringBuilder().de("  ").build());
+        assertEquals(
+                LocalizedValue.stringBuilder().de("DE").build(),
+                LocalizedStringDeFrItRmEmbeddable.from(
+                                LocalizedValue.stringBuilder().de("DE").build())
+                        .toLocalizedValue());
+        assertEquals(
+                LocalizedValue.stringBuilder()
+                        .de("DE")
+                        .fr("FR")
+                        .it("IT")
+                        .romansh("RM")
+                        .build(),
+                LocalizedStringDeFrItRmEmbeddable.from(
+                                LocalizedValue.stringBuilder()
+                                        .de("DE")
+                                        .fr("FR")
+                                        .it("IT")
+                                        .romansh("RM")
+                                        .en("EN")
+                                        .build())
+                        .toLocalizedValue());
     }
 }

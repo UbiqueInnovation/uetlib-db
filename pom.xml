@@ -7,7 +7,7 @@
     <parent>
         <groupId>ch.ubique</groupId>
         <artifactId>uetlib-parent</artifactId>
-        <version>2026.06.0</version>
+        <version>2026.07.0</version>
     </parent>
 
     <artifactId>uetlib-db</artifactId>
@@ -15,10 +15,6 @@
     <packaging>jar</packaging>
 
     <properties>
-        <uetlib-core.version>2.3.3</uetlib-core.version>
-        <uetlib-spring-boot.version>2.2.0</uetlib-spring-boot.version>
-        <uetlib-test.version>2.1.0</uetlib-test.version>
-
         <!-- westemeyer version config -->
         <westemeyer-version-package-name>ch.ubique.backend.db.version</westemeyer-version-package-name>
     </properties>
@@ -28,7 +24,6 @@
         <dependency>
             <groupId>ch.ubique</groupId>
             <artifactId>uetlib-core</artifactId>
-            <version>${uetlib-core.version}</version>
         </dependency>
 
         <dependency>
@@ -71,10 +66,24 @@
         <dependency>
             <groupId>ch.ubique</groupId>
             <artifactId>uetlib-test</artifactId>
-            <version>${uetlib-test.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>ch.ubique</groupId>
+                <artifactId>uetlib-test</artifactId>
+                <version>2.2.0</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.ubique</groupId>
+                <artifactId>uetlib-core</artifactId>
+                <version>2.4.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <repositories>
         <repository>
