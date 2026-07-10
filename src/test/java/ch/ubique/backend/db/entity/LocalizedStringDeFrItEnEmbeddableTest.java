@@ -1,5 +1,8 @@
 package ch.ubique.backend.db.entity;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import ch.ubique.backend.core.localized.LocalizedValue;
 import ch.ubique.backend.core.localized.NoValidValuesException;
 
@@ -8,26 +11,24 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
+@SuppressWarnings("DataFlowIssue")
 class LocalizedStringDeFrItEnEmbeddableTest {
 
     @Test
     @SuppressWarnings("java:S5778")
     void toLocalizedValue() {
         final var localizedStringEmbeddable = new LocalizedStringDeFrItEnEmbeddable();
-        Assertions.assertThrows(
-                NoValidValuesException.class, localizedStringEmbeddable::toLocalizedValue);
+        assertThrows(NoValidValuesException.class, localizedStringEmbeddable::toLocalizedValue);
         localizedStringEmbeddable.setDe("");
-        Assertions.assertThrows(
-                NoValidValuesException.class, localizedStringEmbeddable::toLocalizedValue);
+        assertThrows(NoValidValuesException.class, localizedStringEmbeddable::toLocalizedValue);
         localizedStringEmbeddable.setDe("   ");
-        Assertions.assertThrows(
-                NoValidValuesException.class, localizedStringEmbeddable::toLocalizedValue);
+        assertThrows(NoValidValuesException.class, localizedStringEmbeddable::toLocalizedValue);
         localizedStringEmbeddable.setDe("DEUTSCH");
-        Assertions.assertEquals(
+        assertEquals(
                 LocalizedValue.de("DEUTSCH").toMapWithLocaleKeys(),
                 localizedStringEmbeddable.toLocalizedValue().toMapWithLocaleKeys());
         localizedStringEmbeddable.setEn("ENGLISH");
-        Assertions.assertEquals(
+        assertEquals(
                 LocalizedValue.stringBuilder()
                         .de("DEUTSCH")
                         .en("ENGLISH")
@@ -47,11 +48,11 @@ class LocalizedStringDeFrItEnEmbeddableTest {
         localizedStringEmbeddable.setDe("   ");
         Assertions.assertNull(localizedStringEmbeddable.toLocalizedValueNullable());
         localizedStringEmbeddable.setDe("DEUTSCH");
-        Assertions.assertEquals(
+        assertEquals(
                 LocalizedValue.de("DEUTSCH").toMapWithLocaleKeys(),
                 localizedStringEmbeddable.toLocalizedValueNullable().toMapWithLocaleKeys());
         localizedStringEmbeddable.setEn("ENGLISH");
-        Assertions.assertEquals(
+        assertEquals(
                 LocalizedValue.stringBuilder()
                         .de("DEUTSCH")
                         .en("ENGLISH")
@@ -63,20 +64,18 @@ class LocalizedStringDeFrItEnEmbeddableTest {
     @Test
     void toLocalizedValueOptional() {
         final var localizedStringEmbeddable = new LocalizedStringDeFrItEnEmbeddable();
-        Assertions.assertEquals(
-                Optional.empty(), localizedStringEmbeddable.toLocalizedValueOptional());
+        assertEquals(Optional.empty(), localizedStringEmbeddable.toLocalizedValueOptional());
         localizedStringEmbeddable.setDe(" ");
-        Assertions.assertEquals(
-                Optional.empty(), localizedStringEmbeddable.toLocalizedValueOptional());
+        assertEquals(Optional.empty(), localizedStringEmbeddable.toLocalizedValueOptional());
         localizedStringEmbeddable.setDe("DEUTSCH");
-        Assertions.assertEquals(
+        assertEquals(
                 LocalizedValue.de("DEUTSCH").toMapWithLocaleKeys(),
                 localizedStringEmbeddable
                         .toLocalizedValueOptional()
                         .orElseThrow()
                         .toMapWithLocaleKeys());
         localizedStringEmbeddable.setEn("ENGLISH");
-        Assertions.assertEquals(
+        assertEquals(
                 LocalizedValue.stringBuilder()
                         .de("DEUTSCH")
                         .en("ENGLISH")
@@ -89,17 +88,17 @@ class LocalizedStringDeFrItEnEmbeddableTest {
     }
 
     @Test
-    void from() {
-        Assertions.assertEquals(
+    void fromString() {
+        assertEquals(
                 Optional.empty(),
-                LocalizedStringDeFrItEnEmbeddable.from(null).toLocalizedValueOptional());
-        Assertions.assertEquals(
+                LocalizedStringDeFrItEnEmbeddable.from((String) null).toLocalizedValueOptional());
+        assertEquals(
                 Optional.empty(),
                 LocalizedStringDeFrItEnEmbeddable.from("").toLocalizedValueOptional());
-        Assertions.assertEquals(
+        assertEquals(
                 Optional.empty(),
                 LocalizedStringDeFrItEnEmbeddable.from("  ").toLocalizedValueOptional());
-        Assertions.assertEquals(
+        assertEquals(
                 LocalizedValue.stringBuilder()
                         .de("TEXT")
                         .fr("TEXT")
@@ -111,5 +110,39 @@ class LocalizedStringDeFrItEnEmbeddableTest {
                         .toLocalizedValueOptional()
                         .orElseThrow()
                         .toMapWithLocaleKeys());
+    }
+
+    @Test
+    void fromLocalizedValue() {
+        assertThrows(
+                NullPointerException.class,
+                () -> LocalizedStringDeFrItEnEmbeddable.from((LocalizedValue<String>) null));
+        assertThrows(
+                NoValidValuesException.class,
+                () -> LocalizedValue.stringBuilder().de("").build());
+        assertThrows(
+                NoValidValuesException.class,
+                () -> LocalizedValue.stringBuilder().de("  ").build());
+        assertEquals(
+                LocalizedValue.stringBuilder().de("DE").build(),
+                LocalizedStringDeFrItEnEmbeddable.from(
+                                LocalizedValue.stringBuilder().de("DE").build())
+                        .toLocalizedValue());
+        assertEquals(
+                LocalizedValue.stringBuilder()
+                        .de("DE")
+                        .fr("FR")
+                        .it("IT")
+                        .en("EN")
+                        .build(),
+                LocalizedStringDeFrItEnEmbeddable.from(
+                                LocalizedValue.stringBuilder()
+                                        .de("DE")
+                                        .fr("FR")
+                                        .it("IT")
+                                        .en("EN")
+                                        .romansh("RM")
+                                        .build())
+                        .toLocalizedValue());
     }
 }

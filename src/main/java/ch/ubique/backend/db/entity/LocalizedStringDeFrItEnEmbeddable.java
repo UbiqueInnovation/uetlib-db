@@ -40,6 +40,11 @@ public class LocalizedStringDeFrItEnEmbeddable implements LocalizedStringEmbedda
         return new LocalizedStringDeFrItEnEmbeddable(s, s, s, s);
     }
 
+    public static LocalizedStringDeFrItEnEmbeddable from(final LocalizedValue<String> lv) {
+        return new LocalizedStringDeFrItEnEmbeddable(
+                lv.deNullable(), lv.frNullable(), lv.itNullable(), lv.enNullable());
+    }
+
     public @Nullable String getDe() {
         return de;
     }
