@@ -73,8 +73,8 @@
         </dependency>
     </dependencies>
 
-        <dependencyManagement>
-    <dependencies>
+    <dependencyManagement>
+        <dependencies>
             <dependency>
                 <groupId>ch.ubique</groupId>
                 <artifactId>uetlib-test</artifactId>
