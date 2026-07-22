@@ -17,6 +17,9 @@
     <properties>
         <!-- westemeyer version config -->
         <westemeyer-version-package-name>ch.ubique.backend.db.version</westemeyer-version-package-name>
+        <!-- Sonar -->
+        <sonar.projectName>uetlib-db</sonar.projectName>
+        <sonar.coverage.module>uetlib-db</sonar.coverage.module>
     </properties>
 
     <dependencies>
