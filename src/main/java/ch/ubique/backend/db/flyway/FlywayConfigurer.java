@@ -29,17 +29,31 @@ public final class FlywayConfigurer {
     private FlywayConfigurer() {}
 
     public static FluentConfiguration configureFromFlywayProperties(
-            final DataSource dataSource, final FlywayProperties flywayProperties) {
-        final var fluentConfiguration = Flyway.configure().dataSource(dataSource);
+            final FluentConfiguration fluentConfiguration,
+            final FlywayProperties flywayProperties) {
         configureProperties(fluentConfiguration, flywayProperties);
         return fluentConfiguration;
     }
 
     public static Flyway configureAndMigrateFromFlywayProperties(
-            final DataSource dataSource, final FlywayProperties flywayProperties) {
-        final var flyway = configureFromFlywayProperties(dataSource, flywayProperties).load();
+            final FluentConfiguration fluentConfiguration,
+            final FlywayProperties flywayProperties) {
+        final var flyway =
+                configureFromFlywayProperties(fluentConfiguration, flywayProperties).load();
         flyway.migrate();
         return flyway;
+    }
+
+    public static FluentConfiguration configureFromFlywayProperties(
+            final DataSource dataSource, final FlywayProperties flywayProperties) {
+        return configureFromFlywayProperties(
+                Flyway.configure().dataSource(dataSource), flywayProperties);
+    }
+
+    public static Flyway configureAndMigrateFromFlywayProperties(
+            final DataSource dataSource, final FlywayProperties flywayProperties) {
+        return configureAndMigrateFromFlywayProperties(
+                Flyway.configure().dataSource(dataSource), flywayProperties);
     }
 
     /**

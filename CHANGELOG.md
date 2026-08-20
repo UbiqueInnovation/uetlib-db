@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 2.3.0
+
+- New methods `FlywayConfigurer.configureFromFlywayProperties/configureAndMigrateFromFlywayProperties` that accept a
+  `FluentConfiguration` instead of a `DataSource` to allow Flyway configuration/migration wihtout a `DataSource`, e.g.
+  for MongoDB native connector migrations.
+
 ## 2.2.1
 
 - updated actions to not run tests twice for sonar
