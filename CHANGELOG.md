@@ -5,6 +5,7 @@
 - New methods `FlywayConfigurer.configureFromFlywayProperties/configureAndMigrateFromFlywayProperties` that accept a
   `FluentConfiguration` instead of a `DataSource` to allow Flyway configuration/migration wihtout a `DataSource`, e.g.
   for MongoDB native connector migrations.
+- Latest `uetlib` dependencies
 
 ## 2.2.1
 
