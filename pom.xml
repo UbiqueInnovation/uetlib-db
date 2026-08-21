@@ -7,7 +7,7 @@
     <parent>
         <groupId>ch.ubique</groupId>
         <artifactId>uetlib-parent</artifactId>
-        <version>2026.7.6</version>
+        <version>2026.8.0</version>
         <relativePath/>
     </parent>
 
@@ -18,8 +18,8 @@
     <properties>
         <!-- westemeyer version config -->
         <westemeyer-version-package-name>ch.ubique.backend.db.version</westemeyer-version-package-name>
+
         <!-- Sonar -->
-        <sonar.projectName>uetlib-db</sonar.projectName>
         <sonar.coverage.module>uetlib-db</sonar.coverage.module>
     </properties>
 
@@ -84,7 +84,7 @@
             <dependency>
                 <groupId>ch.ubique</groupId>
                 <artifactId>uetlib-core</artifactId>
-                <version>2.4.2</version>
+                <version>2.4.3</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
