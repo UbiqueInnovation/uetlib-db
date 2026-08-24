@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2.3.1
+
+- latest uetlib parent
+- version updates
+
 ## 2.3.0
 
 - New methods `FlywayConfigurer.configureFromFlywayProperties/configureAndMigrateFromFlywayProperties` that accept a
