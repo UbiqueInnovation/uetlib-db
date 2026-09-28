@@ -118,8 +118,7 @@ class LocalizedStringDeFrItRmEmbeddableTest {
                 NullPointerException.class,
                 () -> LocalizedStringDeFrItRmEmbeddable.from((LocalizedValue<String>) null));
         assertThrows(
-                NoValidValuesException.class,
-                () -> LocalizedValue.stringBuilder().de("").build());
+                NoValidValuesException.class, () -> LocalizedValue.stringBuilder().de("").build());
         assertThrows(
                 NoValidValuesException.class,
                 () -> LocalizedValue.stringBuilder().de("  ").build());
@@ -129,12 +128,7 @@ class LocalizedStringDeFrItRmEmbeddableTest {
                                 LocalizedValue.stringBuilder().de("DE").build())
                         .toLocalizedValue());
         assertEquals(
-                LocalizedValue.stringBuilder()
-                        .de("DE")
-                        .fr("FR")
-                        .it("IT")
-                        .romansh("RM")
-                        .build(),
+                LocalizedValue.stringBuilder().de("DE").fr("FR").it("IT").romansh("RM").build(),
                 LocalizedStringDeFrItRmEmbeddable.from(
                                 LocalizedValue.stringBuilder()
                                         .de("DE")
