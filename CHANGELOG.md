@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 3.0.1
+
+- Update shared Maven build and publish workflows to v0.2.4.
+- Clarify configuration-property migration guidance for consumers.
+
 ## 3.0.0
 
 - Move Java packages and class references from `ch.ubique.uetlib` to `ch.uetlib`.
