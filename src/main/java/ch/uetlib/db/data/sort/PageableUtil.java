@@ -16,8 +16,8 @@ public final class PageableUtil {
      * @param page The page to retrieve (zero-based)
      * @param perPage Entries per page
      * @param orderBy property names to order by
-     * @param orderByDirections Sort direction of the corresponding property in {@param orderBy},
-     *     with default value {@link Sort.Direction#ASC} if this list is shorter than {@param
+     * @param orderByDirections Sort direction of the corresponding property in {@code orderBy},
+     *     with default value {@link Sort.Direction#ASC} if this list is shorter than {@code
      *     orderBy}
      */
     public static Pageable toPageableWithDefaultDirection(
