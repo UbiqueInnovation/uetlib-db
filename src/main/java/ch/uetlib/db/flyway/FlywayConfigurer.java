@@ -57,7 +57,7 @@ public final class FlywayConfigurer {
     }
 
     /**
-     * Extracted and adapted from {@link
+     * Extracted and adapted from {@code
      * FlywayAutoConfiguration.FlywayConfiguration#configureProperties}
      */
     private static void configureProperties(
@@ -71,13 +71,11 @@ public final class FlywayConfigurer {
         fluentConfiguration.locations(locations);
         map.from(flywayProperties.getCallbackLocations())
                 .when(callbackLocations -> !ObjectUtils.isEmpty(callbackLocations))
-                .to(
-                        callbackLocations ->
-                                fluentConfiguration.callbackLocations(
-                                        new VendorLocationResolver(
-                                                        fluentConfiguration.getDataSource())
-                                                .resolveLocations(callbackLocations)
-                                                .toArray(String[]::new)));
+                .to(callbackLocations ->
+                        fluentConfiguration.callbackLocations(
+                                new VendorLocationResolver(fluentConfiguration.getDataSource())
+                                        .resolveLocations(callbackLocations)
+                                        .toArray(String[]::new)));
         map.from(flywayProperties.isFailOnMissingLocations())
                 .to(fluentConfiguration::failOnMissingLocations);
         map.from(flywayProperties.getEncoding()).to(fluentConfiguration::encoding);
@@ -159,10 +157,9 @@ public final class FlywayConfigurer {
         map.from(flywayProperties.getSkipExecutingMigrations())
                 .to(fluentConfiguration::skipExecutingMigrations);
         map.from(flywayProperties.getIgnoreMigrationPatterns())
-                .to(
-                        ignoreMigrationPatterns ->
-                                fluentConfiguration.ignoreMigrationPatterns(
-                                        ignoreMigrationPatterns.toArray(String[]::new)));
+                .to(ignoreMigrationPatterns ->
+                        fluentConfiguration.ignoreMigrationPatterns(
+                                ignoreMigrationPatterns.toArray(String[]::new)));
         map.from(flywayProperties.getDetectEncoding()).to(fluentConfiguration::detectEncoding);
     }
 
@@ -173,7 +170,7 @@ public final class FlywayConfigurer {
         try {
             map.from(flywayProperties.isExecuteInTransaction())
                     .to(fluentConfiguration::executeInTransaction);
-        } catch (final NoSuchMethodError ex) {
+        } catch (final NoSuchMethodError _) {
             // Flyway < 9.14
         }
     }

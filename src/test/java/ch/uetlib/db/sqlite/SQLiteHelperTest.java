@@ -7,9 +7,8 @@ class SQLiteHelperTest {
 
     @Test
     void testCreateSQLiteDb() {
-        Assertions.assertDoesNotThrow(
-                () ->
-                        SQLiteHelper.createSQLiteDbInTempDir(
-                                "test.sql", "db/migration/sqlite/test.sql", 1));
+        Assertions.assertDoesNotThrow(() ->
+                SQLiteHelper.createSQLiteDbInTempDir(
+                        "test.sql", "db/migration/sqlite/test.sql", 1));
     }
 }
