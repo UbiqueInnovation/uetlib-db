@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## UNRELEASED
+
+- Fix the warnings of Error Prone's default checks: missing `@Override` annotations and a Javadoc tag.
+  `SQLiteHelper.createSQLiteDb` skips blank statements in the schema.
+
 ## 3.0.2
 
 - Build pull requests, including forks, and pushes to `main` instead of every branch push; use shared Maven
